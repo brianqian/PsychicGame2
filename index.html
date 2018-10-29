@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <header>
+    <h1>Psychic Game part 2</h1>
+  </header>
+  <main>
+    <div class="word-to-guess">
+    </div>
+    <div class="scoreboard">
+      Guesses Remaining: <span class="guesses-remaining">5</span>
+    </div>
+
+  </main>
+
+  <script>
+
+    function displayWord() {
+      const wordChoices = [
+        'one',
+        'two',
+        'three',
+        'four',
+        'five',
+        'six'
+
+      ]
+      const randomWord = wordChoices[Math.floor(Math.random() * wordChoices.length)]
+      let displayWord = document.querySelector('.word-to-guess')
+      let tempStr = ''
+      for (let i = 0; i < randomWord.length; i++) {
+        tempStr += '_ '
+      }
+      displayWord.textContent = tempStr;
+    }
+
+    function calculateGuesses() {
+      let totalGuesses = 5;
+
+    }
+    displayWord();
+
+  </script>
+</body>
+
+</html>
