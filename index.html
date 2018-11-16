@@ -12,19 +12,31 @@
 <body>
   <header>
     <h1>Psychic Game part 2</h1>
+    <p>Press any button to guess the letter</p>
   </header>
   <main>
-    <div class="word-to-guess">
-    </div>
+    <div class="word-to-guess"></div>
     <div class="scoreboard">
-      Guesses Remaining: <span class="guesses-remaining">5</span>
+      <div class="guess-container">
+        Guesses Remaining: <span class="guesses-remaining">5</span>
+      </div>
+      <div class="guessed-letters-container">
+        Gussed Letters: <span class="guessed-letters"></span>
+      </div>
     </div>
+    <button>Reset Game</button>
 
   </main>
 
   <script>
 
-    function displayWord() {
+
+
+    let guessesRemaining = 5;
+    let displayWord = document.querySelector('.word-to-guess')
+
+    function startGame() {
+
       const wordChoices = [
         'one',
         'two',
@@ -35,19 +47,40 @@
 
       ]
       const randomWord = wordChoices[Math.floor(Math.random() * wordChoices.length)]
-      let displayWord = document.querySelector('.word-to-guess')
       let tempStr = ''
       for (let i = 0; i < randomWord.length; i++) {
         tempStr += '_ '
       }
       displayWord.textContent = tempStr;
-    }
-
-    function calculateGuesses() {
-      let totalGuesses = 5;
+      checkGuess(randomWord);
 
     }
-    displayWord();
+    function checkGuess(word) {
+
+      let guessedLetters = [];
+      const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+      document.addEventListener('keydown', e => {
+        if (e.repeat) return;
+        let guess = e.key.toLowerCase();
+        console.log(guess)
+        if (alphabet.includes(guess) && !word.includes(guess) && !guessedLetters.includes(guess)) {
+          guessedLetters.push(guess);
+          guessesRemaining--;
+          document.querySelector('.guessed-letters').textContent = guessedLetters;
+        } else if (word.includes(guess)) {
+          let tempWord = '';
+
+
+        }
+      })
+
+    }
+
+
+    startGame();
+
+
+
 
   </script>
 </body>
