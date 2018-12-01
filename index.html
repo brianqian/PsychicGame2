@@ -14,7 +14,7 @@
       <p>Press any button to guess the letter</p>
     </header>
     <main>
-      <div class="word-to-guess"></div>
+      <div id="word-to-guess"></div>
       <div class="scoreboard">
         <div class="guess-container">
           Guesses Remaining: <span class="guesses-remaining"></span>
@@ -27,13 +27,15 @@
     </main>
 
     <script>
-      const displayWord = document.querySelector('.word-to-guess');
+      let displayWord = document.querySelector('#word-to-guess');
       const wordChoices = ['one', 'two', 'three', 'four', 'five', 'six'];
       let wordToGuessDisplay = [];
       let randomWord;
       const resetButton = document.querySelector('.reset-button');
       resetButton.addEventListener('click', () => {
         console.log('resetting buttons');
+        displayWord.textContent = '';
+        console.log(displayWord);
         startGame();
       });
 
@@ -43,17 +45,15 @@
       };
 
       function startGame() {
-        wordtoGuessDisplay = [];
+        wordToGuessDisplay = [];
         guessesRemaining = 5;
         document.querySelector('.guesses-remaining').textContent = guessesRemaining;
         randomWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
         for (let i = 0; i < randomWord.length; i++) {
           wordToGuessDisplay.push('_');
-          console.log(wordtoGuessDisplay);
         }
         console.log(randomWord);
         displayWord.textContent = wordToGuessDisplay.join(' ');
-        console.log(wordtoGuessDisplay);
       }
 
       function checkGuess(guess) {
@@ -82,6 +82,10 @@
             }
           }
           displayWord.textContent = wordToGuessDisplay.join(' ');
+          if (!wordToGuessDisplay.includes('_')) {
+            console.log('you win!');
+            startGame();
+          }
         }
       }
 
