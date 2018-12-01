@@ -1,88 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="style.css">
-  <title>Document</title>
-</head>
-
-<body>
-  <header>
-    <h1>Psychic Game part 2</h1>
-    <p>Press any button to guess the letter</p>
-  </header>
-  <main>
-    <div class="word-to-guess"></div>
-    <div class="scoreboard">
-      <div class="guess-container">
-        Guesses Remaining: <span class="guesses-remaining">5</span>
+  <body>
+    <header>
+      <h1>Psychic Game part 2</h1>
+      <p>Press any button to guess the letter</p>
+    </header>
+    <main>
+      <div class="word-to-guess"></div>
+      <div class="scoreboard">
+        <div class="guess-container">
+          Guesses Remaining: <span class="guesses-remaining"></span>
+        </div>
+        <div class="guessed-letters-container">
+          Gussed Letters: <span class="guessed-letters"></span>
+        </div>
       </div>
-      <div class="guessed-letters-container">
-        Gussed Letters: <span class="guessed-letters"></span>
-      </div>
-    </div>
-    <button>Reset Game</button>
+      <button class="reset-button">Reset Game</button>
+    </main>
 
-  </main>
+    <script>
+      const displayWord = document.querySelector('.word-to-guess');
+      const wordChoices = ['one', 'two', 'three', 'four', 'five', 'six'];
+      let wordToGuessDisplay = [];
+      let randomWord;
+      const resetButton = document.querySelector('.reset-button');
+      resetButton.addEventListener('click', () => {
+        console.log('resetting buttons');
+        startGame();
+      });
 
-  <script>
+      document.onkeyup = e => {
+        console.log(e.key.toLowerCase());
+        checkGuess(e.key);
+      };
 
-
-
-    let guessesRemaining = 5;
-    let displayWord = document.querySelector('.word-to-guess')
-
-    function startGame() {
-
-      const wordChoices = [
-        'one',
-        'two',
-        'three',
-        'four',
-        'five',
-        'six'
-
-      ]
-      const randomWord = wordChoices[Math.floor(Math.random() * wordChoices.length)]
-      let tempStr = ''
-      for (let i = 0; i < randomWord.length; i++) {
-        tempStr += '_ '
+      function startGame() {
+        wordtoGuessDisplay = [];
+        guessesRemaining = 5;
+        document.querySelector('.guesses-remaining').textContent = guessesRemaining;
+        randomWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
+        for (let i = 0; i < randomWord.length; i++) {
+          wordToGuessDisplay.push('_');
+          console.log(wordtoGuessDisplay);
+        }
+        console.log(randomWord);
+        displayWord.textContent = wordToGuessDisplay.join(' ');
+        console.log(wordtoGuessDisplay);
       }
-      displayWord.textContent = tempStr;
-      checkGuess(randomWord);
 
-    }
-    function checkGuess(word) {
-
-      let guessedLetters = [];
-      const alphabet = 'abcdefghijklmnopqrstuvwxyz'
-      document.addEventListener('keydown', e => {
-        if (e.repeat) return;
-        let guess = e.key.toLowerCase();
-        console.log(guess)
-        if (alphabet.includes(guess) && !word.includes(guess) && !guessedLetters.includes(guess)) {
+      function checkGuess(guess) {
+        let guessedLetters = [];
+        const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+        //if guess is letter, hasn't been guessed, and is incorrect
+        if (
+          alphabet.includes(guess) &&
+          !randomWord.includes(guess) &&
+          !guessedLetters.includes(guess)
+        ) {
           guessedLetters.push(guess);
           guessesRemaining--;
+          console.log(guessesRemaining);
           document.querySelector('.guessed-letters').textContent = guessedLetters;
-        } else if (word.includes(guess)) {
-          let tempWord = '';
-
-
+          document.querySelector('.guesses-remaining').textContent = guessesRemaining;
+          if (!guessesRemaining) {
+            console.log('game over!');
+            startGame();
+          }
+          //if guess is correct...
+        } else if (randomWord.includes(guess)) {
+          for (let i = 0; i < randomWord.length; i++) {
+            if (randomWord[i] === guess) {
+              wordToGuessDisplay.splice(i, 1, guess);
+            }
+          }
+          displayWord.textContent = wordToGuessDisplay.join(' ');
         }
-      })
+      }
 
-    }
-
-
-    startGame();
-
-
-
-
-  </script>
-</body>
-
+      startGame();
+    </script>
+  </body>
 </html>
